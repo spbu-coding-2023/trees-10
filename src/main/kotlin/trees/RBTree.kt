@@ -42,9 +42,12 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         return null
     }
 
-    private fun leftRotate(node: RBNode<K, V>) {
+    private fun leftRotate(node: RBNode<K, V>): RBNode<K, V>? {
         val pivot = node.right
+        var returnedValue: RBNode<K, V>? = null
+
         pivot?.parent = node.parent
+        if (node.parent == null) returnedValue = pivot
         if (node.parent != null) {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
@@ -58,11 +61,15 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
 
         node.parent = pivot
         pivot?.left = node
+        return returnedValue
     }
 
-    private fun rightRotate(node: RBNode<K, V>) {
+    private fun rightRotate(node: RBNode<K, V>): RBNode<K, V>? {
         val pivot = node.left
+        var returnedValue: RBNode<K, V>? = null
+
         pivot?.parent = node.parent
+        if (node.parent == null) returnedValue = pivot
         if (node.parent != null) {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
@@ -76,6 +83,7 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
 
         node.parent = pivot
         pivot?.right = node
+        return returnedValue
     }
 
     private fun getNodeGrandParent(node: RBNode<K, V>?) =
