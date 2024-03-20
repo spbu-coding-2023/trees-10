@@ -102,7 +102,49 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
             root = RBNode(key, value)
             return
         }
-        val newNode = recInsert(key, value, root)
+        var newNode = recInsert(key, value, root)
+        newNode?.color = RBNode.Colors.RED
+
+        while (newNode?.parent?.color == RBNode.Colors.RED) {
+            if (getNodeGrandParent(newNode)?.left == newNode.parent) { // parent is left child
+                if (getNodeUncle(newNode)?.color == RBNode.Colors.RED) { // has red uncle
+                    newNode.parent?.color = RBNode.Colors.BLACK
+                    getNodeUncle(newNode)?.color = RBNode.Colors.BLACK
+                    getNodeGrandParent(newNode)?.color = RBNode.Colors.RED
+                    newNode = getNodeGrandParent(newNode)
+                } else {
+                    if (newNode.parent?.right == newNode) {
+                        newNode = newNode.parent
+                        newNode?.let { leftRotate(it) }
+                    }
+                    newNode?.parent?.color = RBNode.Colors.BLACK
+                    getNodeGrandParent(newNode)?.color = RBNode.Colors.RED
+                    getNodeGrandParent(newNode)?.let {
+                        val result = rightRotate(it)
+                        if (result != null) root = result
+                    }
+                }
+            } else { // parent is right child
+                if (getNodeUncle(newNode)?.color == RBNode.Colors.RED) { // has red uncle
+                    newNode.parent?.color = RBNode.Colors.BLACK
+                    getNodeUncle(newNode)?.color = RBNode.Colors.BLACK
+                    getNodeGrandParent(newNode)?.color = RBNode.Colors.RED
+                    newNode = getNodeGrandParent(newNode)
+                } else {
+                    if (newNode.parent?.left == newNode) {
+                        newNode = newNode.parent
+                        newNode?.let { rightRotate(it) }
+                    }
+                    newNode?.parent?.color = RBNode.Colors.BLACK
+                    getNodeGrandParent(newNode)?.color = RBNode.Colors.RED
+                    getNodeGrandParent(newNode)?.let {
+                        val result = leftRotate(it)
+                        if (result != null) root = result
+                    }
+                }
+            }
+        }
+        root?.color = RBNode.Colors.BLACK
     }
     override fun delete(key: K) {}
 }
