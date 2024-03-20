@@ -20,21 +20,26 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         } ?: "${root}null\n"
     }
 
-    private fun recInsert(key: K, value: V, node: RBNode<K, V>?): RBNode<K, V>? {
+    private fun recInsert(key: K, value: V,
+                          node: RBNode<K, V>?): RBNode<K, V>? {
         node?.let {
             if (key < node.key) {
                 if (node.left == null) {
                     node.left = RBNode(key, value)
-                } else  recInsert(key, value, node.left)
+                    node.left?.parent = node
+                    return node.left
+                } else return recInsert(key, value, node.left)
             } else {
                 if (node.right == null) {
                     node.right = RBNode(key, value)
+                    node.right?.parent = node
+                    return node.right
                 } else {
-                    recInsert(key, value, node.right)
+                    return recInsert(key, value, node.right)
                 }
             }
         }
-        return node
+        return null
     }
 
     private fun leftRotate(node: RBNode<K, V>) {
