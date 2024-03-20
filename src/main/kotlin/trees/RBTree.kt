@@ -11,10 +11,10 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                         bottom: String = ""): String {
         return node?.let {
             if (node.left == null && node.right == null) {
-                "$root${node.key}\n"
+                "$root${node.key}(${node.color})\n"
             } else {
                 diagram(node.right, "$top ", "$top┌──", "$top│ ") +
-                        root + "${node.key}\n" + diagram(node.left,
+                        root + "${node.key}(${node.color})\n" + diagram(node.left,
                     "$bottom│ ", "$bottom└──", "$bottom ")
             }
         } ?: "${root}null\n"
