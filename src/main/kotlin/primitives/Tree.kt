@@ -1,7 +1,10 @@
 package primitives
 
-abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> {
+import iterator.TreeIterator
+
+abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> : Iterable<V> {
     var root: N? = null
+
     abstract fun insert(key: K, value: V)
     abstract fun delete(key: K)
     fun update(key: K, value: V) {
@@ -26,5 +29,7 @@ abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> {
             return searchRec(current.right, key)
 
     }
+    override operator fun iterator(): Iterator<V> {
+        return TreeIterator(root)
+    }
 }
-
