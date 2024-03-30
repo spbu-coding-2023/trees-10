@@ -15,7 +15,7 @@ class BSTree<K : Comparable<K>, V>: Tree<K, V, BSNode<K, V>>(){
         else if (current.key < key)
             current.right = insertRec(current.right, key, value)
         else if (current.key == key)
-            throw Exception("You cannot add a key that is already contained in the tree")
+            current.value = value
         return current
     }
     private fun getMin(current: BSNode<K, V>?): BSNode<K,V> {
@@ -38,6 +38,7 @@ class BSTree<K : Comparable<K>, V>: Tree<K, V, BSNode<K, V>>(){
             else if (current.left == null)
                 return current.right
             val minValue = getMin(current.right)
+            current.key = minValue.key
             current.value = minValue.value
             current.right = deleteRec(current.right, minValue.key)
             return current
