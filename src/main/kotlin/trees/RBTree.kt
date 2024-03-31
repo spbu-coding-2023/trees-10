@@ -147,5 +147,122 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         }
         root?.color = Colors.BLACK
     }
-    override fun delete(key: K) {}
+
+    override fun delete(key: K) {
+        var current = findNode(root, key) ?: return
+
+        if (current.left != null && current.right != null) {
+            val successor = minValueNode(
+                current.right
+                    ?: throw IllegalStateException("Impossible to find minValueNode")
+            )
+            current.value = successor.value
+            current = successor
+        }
+
+        val child = if (current.left != null) current.left else current.right
+        if (child != null) {
+            child.parent = current.parent
+            if (current.parent == null) return
+            if (current == current.parent?.left) {
+                current.parent?.left = child
+            } else {
+                current.parent?.right = child
+            }
+
+            if (current.color == Colors.BLACK) {
+                fixAfterDeletion(child)
+            }
+        } else if (current.parent == null) {
+            return
+        } else {
+            if (current.color == Colors.BLACK) {
+                fixAfterDeletion(current)
+            }
+            if (current.parent?.left == current) {
+                current.parent?.left = null
+            } else {
+                current.parent?.right = null
+            }
+        }
+    }
+
+    private fun takeColor(node: RBNode<K, V>?): Colors {
+        return node?.color ?: Colors.BLACK
+    }
+
+    private fun fixAfterDeletion(node: RBNode<K, V>?) {
+        var current = node
+        var sibling: RBNode<K, V>?
+
+        while (current !== root && takeColor(current) == Colors.BLACK) {
+            if (current === current?.parent?.left) {
+                sibling = current?.parent?.right
+                if (takeColor(sibling) == Colors.RED) {
+                    sibling?.color = Colors.BLACK
+                    current?.parent?.color = Colors.RED
+                    root = leftRotate(current?.parent)
+                    sibling = current?.parent?.right
+                }
+                if (takeColor(sibling?.left) == Colors.BLACK && takeColor(sibling?.right) == Colors.BLACK) {
+                    sibling?.color = Colors.RED
+                    current = current?.parent
+                } else {
+                    if (takeColor(sibling?.right) == Colors.BLACK) {
+                        sibling?.left?.color = Colors.BLACK
+                        sibling?.color = Colors.RED
+                        root = rightRotate(sibling)
+                        sibling = current?.parent?.right
+                    }
+                    sibling?.color = current?.parent?.color ?: Colors.BLACK
+                    current?.parent?.color = Colors.BLACK
+                    sibling?.right?.color = Colors.BLACK
+                    root = leftRotate(current?.parent)
+                    current = root
+                }
+            } else {
+                sibling = current?.parent?.left
+                if (takeColor(sibling) == Colors.RED) {
+                    sibling?.color = Colors.BLACK
+                    current?.parent?.color = Colors.RED
+                    root = rightRotate(current?.parent)
+                    sibling = current?.parent?.left
+                }
+                if (takeColor(sibling?.right) == Colors.BLACK && takeColor(sibling?.left) == Colors.BLACK) {
+                    sibling?.color = Colors.RED
+                    current = current?.parent
+                } else {
+                    if (takeColor(sibling?.left) == Colors.BLACK) {
+                        sibling?.right?.color = Colors.BLACK
+                        sibling?.color = Colors.RED
+                        root = leftRotate(sibling)
+                        sibling = current?.parent?.left
+                    }
+                    sibling?.color = current?.parent?.color ?: Colors.BLACK
+                    current?.parent?.color = Colors.BLACK
+                    sibling?.left?.color = Colors.BLACK
+                    root = rightRotate(current?.parent)
+                    current = root
+                }
+            }
+        }
+        current?.color = Colors.BLACK
+        root?.parent = null
+    }
+
+    private fun findNode(node: RBNode<K, V>?, key: K): RBNode<K, V>? {
+        node ?: return null
+        if (key == node.key) {
+            return node
+        }
+        return findNode(if (key < node.key) node.left else node.right, key)
+    }
+
+    private fun minValueNode(node: RBNode<K, V>): RBNode<K, V> {
+        var current = node
+        while (true) {
+            current = current.left ?: break
+        }
+        return current
+    }
 }
