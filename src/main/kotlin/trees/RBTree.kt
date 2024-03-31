@@ -21,28 +21,6 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         } ?: "${root}null\n"
     }
 
-    private fun insertNode(key: K, value: V,
-                          node: RBNode<K, V>?): RBNode<K, V>? {
-        node?.let {
-            if (key < node.key) {
-                if (node.left == null) {
-                    node.left = RBNode(key, value)
-                    node.left?.parent = node
-                    return node.left
-                } else return insertNode(key, value, node.left)
-            } else {
-                if (node.right == null) {
-                    node.right = RBNode(key, value)
-                    node.right?.parent = node
-                    return node.right
-                } else {
-                    return insertNode(key, value, node.right)
-                }
-            }
-        }
-        return null
-    }
-
     private fun leftRotate(node: RBNode<K, V>?): RBNode<K, V>? {
         node ?: throw IllegalStateException("Node value can not bo null!")
         val pivot = node.right
@@ -105,9 +83,35 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
             root = RBNode(key, value)
             return
         }
-        var newNode = insertNode(key, value, root)
-        newNode?.color = Colors.RED
+        val node = insertNode(key, value, root)
+        node?.color = Colors.RED
+        fixAfterInsertion(node)
+    }
 
+    private fun insertNode(key: K, value: V,
+                           node: RBNode<K, V>?): RBNode<K, V>? {
+        node?.let {
+            if (key < node.key) {
+                if (node.left == null) {
+                    node.left = RBNode(key, value)
+                    node.left?.parent = node
+                    return node.left
+                } else return insertNode(key, value, node.left)
+            } else {
+                if (node.right == null) {
+                    node.right = RBNode(key, value)
+                    node.right?.parent = node
+                    return node.right
+                } else {
+                    return insertNode(key, value, node.right)
+                }
+            }
+        }
+        return null
+    }
+
+    private fun fixAfterInsertion(node: RBNode<K, V>?) {
+        var newNode = node
         while (newNode?.parent?.color == Colors.RED) {
             if (getNodeGrandParent(newNode)?.left == newNode.parent) { // parent is left child
                 if (getNodeUncle(newNode)?.color == Colors.RED) { // has red uncle
@@ -118,13 +122,13 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 } else {
                     if (newNode.parent?.right == newNode) {
                         newNode = newNode.parent
-                        newNode?.let { root = leftRotate(it) }
+                        root = leftRotate(newNode)
                     }
                     newNode?.parent?.color = Colors.BLACK
                     getNodeGrandParent(newNode)?.color = Colors.RED
-                    getNodeGrandParent(newNode)?.let {
-                        root = rightRotate(it)
-                    }
+                    root = rightRotate(
+                        getNodeGrandParent(newNode)
+                    )
                 }
             } else { // parent is right child
                 if (getNodeUncle(newNode)?.color == Colors.RED) { // has red uncle
@@ -135,13 +139,13 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 } else {
                     if (newNode.parent?.left == newNode) {
                         newNode = newNode.parent
-                        newNode?.let { root = rightRotate(it) }
+                        root = rightRotate(newNode)
                     }
                     newNode?.parent?.color = Colors.BLACK
                     getNodeGrandParent(newNode)?.color = Colors.RED
-                    getNodeGrandParent(newNode)?.let {
-                        root = leftRotate(it)
-                    }
+                    root = leftRotate(
+                        getNodeGrandParent(newNode)
+                    )
                 }
             }
         }
@@ -185,10 +189,6 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 current.parent?.right = null
             }
         }
-    }
-
-    private fun takeColor(node: RBNode<K, V>?): Colors {
-        return node?.color ?: Colors.BLACK
     }
 
     private fun fixAfterDeletion(node: RBNode<K, V>?) {
@@ -264,5 +264,8 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
             current = current.left ?: break
         }
         return current
+    }
+    private fun takeColor(node: RBNode<K, V>?): Colors {
+        return node?.color ?: Colors.BLACK
     }
 }
