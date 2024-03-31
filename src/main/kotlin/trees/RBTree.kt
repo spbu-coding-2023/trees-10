@@ -43,12 +43,13 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         return null
     }
 
-    private fun leftRotate(node: RBNode<K, V>): RBNode<K, V>? {
+    private fun leftRotate(node: RBNode<K, V>?): RBNode<K, V>? {
+        node ?: throw IllegalStateException("Node value can not bo null!")
         val pivot = node.right
-        var returnedValue: RBNode<K, V>? = null
+        var newRoot = root
 
         pivot?.parent = node.parent
-        if (node.parent == null) returnedValue = pivot
+        if (node.parent == null) newRoot = pivot
         if (node.parent != null) {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
@@ -62,15 +63,16 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
 
         node.parent = pivot
         pivot?.left = node
-        return returnedValue
+        return newRoot
     }
 
-    private fun rightRotate(node: RBNode<K, V>): RBNode<K, V>? {
+    private fun rightRotate(node: RBNode<K, V>?): RBNode<K, V>? {
+        node ?: throw IllegalStateException("Node value can not bo null!")
         val pivot = node.left
-        var returnedValue: RBNode<K, V>? = null
+        var newRoot = root
 
         pivot?.parent = node.parent
-        if (node.parent == null) returnedValue = pivot
+        if (node.parent == null) newRoot = pivot
         if (node.parent != null) {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
@@ -84,7 +86,7 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
 
         node.parent = pivot
         pivot?.right = node
-        return returnedValue
+        return newRoot
     }
 
     private fun getNodeGrandParent(node: RBNode<K, V>?) =
@@ -116,13 +118,12 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 } else {
                     if (newNode.parent?.right == newNode) {
                         newNode = newNode.parent
-                        newNode?.let { leftRotate(it) }
+                        newNode?.let { root = leftRotate(it) }
                     }
                     newNode?.parent?.color = Colors.BLACK
                     getNodeGrandParent(newNode)?.color = Colors.RED
                     getNodeGrandParent(newNode)?.let {
-                        val result = rightRotate(it)
-                        if (result != null) root = result
+                        root = rightRotate(it)
                     }
                 }
             } else { // parent is right child
@@ -134,13 +135,12 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 } else {
                     if (newNode.parent?.left == newNode) {
                         newNode = newNode.parent
-                        newNode?.let { rightRotate(it) }
+                        newNode?.let { root = rightRotate(it) }
                     }
                     newNode?.parent?.color = Colors.BLACK
                     getNodeGrandParent(newNode)?.color = Colors.RED
                     getNodeGrandParent(newNode)?.let {
-                        val result = leftRotate(it)
-                        if (result != null) root = result
+                        root = leftRotate(it)
                     }
                 }
             }
