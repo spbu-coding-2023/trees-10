@@ -91,7 +91,7 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
     private fun insertNode(key: K, value: V,
                            node: RBNode<K, V>?): RBNode<K, V>? {
         node?.let {
-            if (key < node.key) {
+            if (key <= node.key) {
                 if (node.left == null) {
                     node.left = RBNode(key, value)
                     node.left?.parent = node
