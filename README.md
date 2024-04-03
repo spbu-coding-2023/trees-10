@@ -7,33 +7,34 @@ ___
 ```
 # How to create a tree?
 ``` kotlin
-var bstree = BSTree<Int, Int>() // Created an empty Binary Search Tree
-var avltree = BSTree<Int, Int>() // Created an empty AVLTree
-var rbtree = BSTree<Int, Int>() // Created an empty Red–Black Tree
+var bstree = BSTree<Int, Int>()
+var avltree = AVLTree<Int, Int>()
+var rbtree = RBTree<Int, Int>()
 ```
 The first type parameter(**`key`**) is a comparable key
 
 The second parameter(**`value`**) can take any form
 
 
-# What a tree can do?
-All types of trees can perform 3 actions: 
-
-1)`insert` (The tree adds a key and writes a value to it)
-
-2)`update` (The tree updates the value by key)
-
-3)`delete` (The tree deletes the node with the key that the user specified)
-
-4)`search` (The tree is looking for a node with the key that the user specified)
-
-
-
-**`Example:`**
+# Basic usage
+All types of trees support all CRUD operations:
 ``` kotlin
-    var bstree = BSTree<String, Int>()
-    bstree.insert("kotlin <3", 19)
-    bstree.update("kotlin <3", 666)
-    bstree.delete("kotlin <3")
-    bstree.search("Windows > Linux")
+    var tree = BSTree<String, Int>()
+    tree.insert("kotlin <3", 19)
+    tree.update("kotlin <3", 666)
+    tree.delete("kotlin <3")
+    tree.search("Windows > Linux")
+```
+
+You can iterate over a tree values:
+``` kotlin
+    var tree = BSTree<String, Int>()
+    // iterate like this
+    for (t in tree) {
+        println(t)
+    }
+    // or like this
+    tree.forEach {
+        println(it)
+    }
 ```
