@@ -114,4 +114,59 @@ class RBTreeTest {
         assertEquals(Colors.RED, t.root?.left?.right?.color)
         assertEquals(Colors.RED, t.root?.left?.left?.color)
     }
+
+
+    @Test
+    fun `test deletion of node without any children`() {
+        val t = RBTree<Int, Int>()
+        t.insert(1, 0)
+        t.insert(2, 0)
+        t.insert(3, 0)
+
+        t.delete(3)
+
+        assertEquals(null, t.root?.right)
+    }
+
+    @Test
+    fun `test deletion of node with right child`() {
+        val t = RBTree<Int, Int>()
+        t.insert(10, 0)
+        t.insert(20, 0)
+        t.insert(30, 0)
+        t.insert(35, 0)
+
+        t.delete(30)
+
+        assertEquals(35, t.root?.right?.key)
+    }
+
+    @Test
+    fun `test deletion of node with left child`() {
+        val t = RBTree<Int, Int>()
+        t.insert(10, 0)
+        t.insert(20, 0)
+        t.insert(30, 0)
+        t.insert(25, 0)
+
+        t.delete(30)
+
+        assertEquals(25, t.root?.right?.key)
+    }
+
+    @Test
+    fun `test deletion of node with both children`() {
+        val t = RBTree<Int, Int>()
+        t.insert(10, 0)
+        t.insert(20, 0)
+        t.insert(30, 0)
+        t.insert(25, 0)
+        t.insert(35, 0)
+
+        t.delete(30)
+
+        assertEquals(30, t.root?.right?.key)
+        assertEquals(25, t.root?.right?.left?.key)
+        assertEquals(null, t.root?.right?.right?.key)
+    }
 }
