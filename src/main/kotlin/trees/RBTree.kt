@@ -27,8 +27,9 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         var newRoot = root
 
         pivot?.parent = node.parent
-        if (node.parent == null) newRoot = pivot
-        if (node.parent != null) {
+        if (node.parent == null)
+            newRoot = pivot
+        else {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
             else
@@ -50,8 +51,9 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         var newRoot = root
 
         pivot?.parent = node.parent
-        if (node.parent == null) newRoot = pivot
-        if (node.parent != null) {
+        if (node.parent == null)
+            newRoot = pivot
+        else {
             if (node.parent?.left == node)
                 node.parent?.left = pivot
             else
