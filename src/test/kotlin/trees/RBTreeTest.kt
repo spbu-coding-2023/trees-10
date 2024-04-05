@@ -165,7 +165,7 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(30, t.root?.right?.key)
+        assertEquals(35, t.root?.right?.key)
         assertEquals(25, t.root?.right?.left?.key)
         assertEquals(null, t.root?.right?.right?.key)
     }
