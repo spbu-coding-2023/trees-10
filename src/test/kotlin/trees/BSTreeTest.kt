@@ -6,6 +6,7 @@ import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.seconds
 
 class BSTreeTest {
     private lateinit var tree: BSTree<Int,Int>
@@ -17,7 +18,7 @@ class BSTreeTest {
     fun checkInvariant(tree : BSTree<Int, Int>, lenght: Int) : Boolean {
         var treeNode = mutableListOf<Int>()
 
-        for (value in tree)
+        for ((_, value) in tree)
             treeNode.add(value)
 
 
@@ -55,15 +56,19 @@ class BSTreeTest {
 
         var treeSize = 0
 
-        tree.forEach { value ->
+        tree.forEach { (_, value) ->
             if (value != null)
             treeSize ++ }
 
+        var isContains = true
+        for ((_, v) in tree) {
+            if (v == randomDeleteKey)
+                isContains = false
+        }
+
         assertTrue(checkInvariant(tree, treeSize), "After deleting the key, the binary tree lost its properties")
-        assertTrue(!tree.contains(randomDeleteKey), "Tree contains deleted key")
+        assertTrue(isContains, "Tree contains deleted key")
         assertTrue(treeSize == keysCount - 1, "The size of the tree with the deleted node should be 1 less than the original one")
-
-
     }
     @Test
     fun `the updated key must be updated`() {
@@ -82,7 +87,7 @@ class BSTreeTest {
         
         var countUpdate = 0
         for (pair in tree.zip(keys.sorted())) {
-                countUpdate += if (pair.first != pair.second) 1 else 0
+                countUpdate += if (pair.first.second != pair.second) 1 else 0
         }
         assertEquals(countUpdate, 1, "Only one node in the tree should be changed")
 
