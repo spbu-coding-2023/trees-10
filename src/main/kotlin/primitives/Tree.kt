@@ -2,7 +2,7 @@ package primitives
 
 import iterator.TreeIterator
 
-abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> : Iterable<V> {
+abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> : Iterable<Pair<K, V>> {
     var root: N? = null
 
     abstract fun insert(key: K, value: V)
@@ -29,7 +29,7 @@ abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> : Iterable<V> {
             return searchRec(current.right, key)
 
     }
-    override operator fun iterator(): Iterator<V> {
+    override operator fun iterator(): Iterator<Pair<K, V>> {
         return TreeIterator(root)
     }
 }

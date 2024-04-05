@@ -26,15 +26,16 @@ All types of trees support all CRUD operations:
     tree.search("Windows > Linux")
 ```
 
-You can iterate over a tree values:
+You can iterate over a tree:
 ``` kotlin
     var tree = BSTree<String, Int>()
     // iterate like this
-    for (t in tree) {
-        println(t)
+    for ((key, value) in tree) {
+        println("$key $value")
     }
     // or like this
     tree.forEach {
         println(it)
     }
+
 ```
