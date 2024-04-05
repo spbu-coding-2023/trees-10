@@ -83,21 +83,21 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
             root = RBNode(key, value)
             return
         }
-        val node = insertNode(key, value, root)
-        node?.color = Colors.RED
+        val node = insertNode(key, value, root) ?: return
+        node.color = Colors.RED
         fixAfterInsertion(node)
     }
 
     private fun insertNode(key: K, value: V,
                            node: RBNode<K, V>?): RBNode<K, V>? {
         node?.let {
-            if (key <= node.key) {
+            if (key < node.key) {
                 if (node.left == null) {
                     node.left = RBNode(key, value)
                     node.left?.parent = node
                     return node.left
                 } else return insertNode(key, value, node.left)
-            } else {
+            } else if (key > node.key) {
                 if (node.right == null) {
                     node.right = RBNode(key, value)
                     node.right?.parent = node
@@ -105,6 +105,8 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 } else {
                     return insertNode(key, value, node.right)
                 }
+            } else {
+                node.value = value
             }
         }
         return null
