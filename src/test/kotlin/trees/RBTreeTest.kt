@@ -1,21 +1,26 @@
 package trees
 
 import nodes.RBNode.Colors
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class RBTreeTest {
+    private lateinit var t: RBTree<Int, Int>
+
+    @BeforeEach
+    fun setup() {
+        t = RBTree()
+    }
 
     @Test
     fun `test insertion into void tree`() {
-        val t = RBTree<Int, Int>()
         t.insert(1, 0)
         assertEquals(1, t.root?.key)
     }
 
     @Test
     fun `test insertion of three elements to the right`() {
-        val t = RBTree<Int, Int>()
         t.insert(1, 0)
         t.insert(2, 0)
         t.insert(3, 0)
@@ -29,7 +34,6 @@ class RBTreeTest {
 
     @Test
     fun `test insertion of three elements to the left`() {
-        val t = RBTree<Int, Int>()
         t.insert(3, 0)
         t.insert(2, 0)
         t.insert(1, 0)
@@ -43,7 +47,6 @@ class RBTreeTest {
 
     @Test
     fun `test parent is right child and node has red uncle`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -60,7 +63,6 @@ class RBTreeTest {
 
     @Test
     fun `test parent is left child and node has red uncle`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -77,7 +79,6 @@ class RBTreeTest {
 
     @Test
     fun `test parent is right child and node has not red uncle and node is left child`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -97,7 +98,6 @@ class RBTreeTest {
 
     @Test
     fun `test parent is left child and node has not red uncle and node is right child`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -118,7 +118,6 @@ class RBTreeTest {
 
     @Test
     fun `test deletion of node without any children`() {
-        val t = RBTree<Int, Int>()
         t.insert(1, 0)
         t.insert(2, 0)
         t.insert(3, 0)
@@ -130,7 +129,6 @@ class RBTreeTest {
 
     @Test
     fun `test deletion of node with right child`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -143,7 +141,6 @@ class RBTreeTest {
 
     @Test
     fun `test deletion of node with left child`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
@@ -156,7 +153,6 @@ class RBTreeTest {
 
     @Test
     fun `test deletion of node with both children`() {
-        val t = RBTree<Int, Int>()
         t.insert(10, 0)
         t.insert(20, 0)
         t.insert(30, 0)
