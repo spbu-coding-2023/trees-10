@@ -160,6 +160,7 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 current.right
                     ?: throw IllegalStateException("Impossible to find minValueNode")
             )
+            current.key = successor.key
             current.value = successor.value
             current = successor
         }
@@ -167,7 +168,10 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
         val child = if (current.left != null) current.left else current.right
         if (child != null) {
             child.parent = current.parent
-            if (current.parent == null) return
+            if (current.parent == null) {
+                root = child
+                return
+            }
             if (current == current.parent?.left) {
                 current.parent?.left = child
             } else {
@@ -178,6 +182,7 @@ class RBTree<K : Comparable<K>, V>: Tree<K, V, RBNode<K, V>>() {
                 fixAfterDeletion(child)
             }
         } else if (current.parent == null) {
+            root = null
             return
         } else {
             if (current.color == Colors.BLACK) {
