@@ -17,15 +17,14 @@ class BSTreeTest {
     fun checkInvariant(tree : BSTree<Int, Int>, length: Int) : Boolean {
         val treeNode = mutableListOf<Int>()
 
-        for (value in tree)
-            treeNode.add(value)
+        for (pair in tree)
+            treeNode.add(pair.second)
 
 
         for (i in 1 until length) {
             if (treeNode[i] <= treeNode[i - 1])
                 return false
         }
-
         return true
     }
 
@@ -62,9 +61,9 @@ class BSTreeTest {
 
         assertTrue(checkInvariant(tree, treeSize), "After deleting the key, the binary tree lost its properties")
 
-        assertTrue(!tree.contains(randomDeleteKey), "Tree contains deleted key")
-        
-        assertTrue(treeSize == keysCount - 1, "The size of the tree with the deleted node should be 1 less than the original one")
+        assertTrue(!tree.contains(Pair(randomDeleteKey, randomDeleteKey)), "Tree contains deleted key")
+
+        assertEquals(treeSize, keysCount - 1, "The size of the tree with the deleted node should be 1 less than the original one")
     }
 
     @Test
@@ -79,14 +78,12 @@ class BSTreeTest {
             randomValue = Random.nextInt(1,10000001)
         } while (tree.search(randomUpdateKey) == randomValue)
 
-        var treeBeforeUpdate = tree
-
         tree.update(randomUpdateKey, randomValue)
-        
+
         var countUpdate = 0
 
         for (pair in tree.zip(keys.sorted())) {
-                countUpdate += if (pair.first != pair.second) 1 else 0
+                countUpdate += if (pair.first.second != pair.second) 1 else 0
         }
 
         assertEquals(countUpdate, 1, "Only one node in the tree should be changed")
@@ -101,9 +98,7 @@ class BSTreeTest {
 
         var countBeforeDoubleInsert = 0
 
-        tree.forEach { keys ->
-            countBeforeDoubleInsert ++
-        }
+        tree.forEach { countBeforeDoubleInsert ++ }
 
         assertEquals(countBeforeDoubleInsert, keysCount, "Tree must contain unique keys")
     }
