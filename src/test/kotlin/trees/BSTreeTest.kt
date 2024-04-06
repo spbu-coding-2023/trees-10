@@ -6,27 +6,26 @@ import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.time.Duration.Companion.seconds
 
 class BSTreeTest {
     private lateinit var tree: BSTree<Int,Int>
 
-    var randomizer = Random(24)
-    val keys = Array(100000) { randomizer.nextInt() }.distinct()
-    val keysCount = keys.size
+    private var randomizer = Random(24)
+    private val keys = Array(100000) { randomizer.nextInt() }.distinct()
+    private val keysCount = keys.size
 
-    fun checkInvariant(tree : BSTree<Int, Int>, lenght: Int) : Boolean {
-        var treeNode = mutableListOf<Int>()
+    fun checkInvariant(tree : BSTree<Int, Int>, length: Int) : Boolean {
+        val treeNode = mutableListOf<Int>()
 
-        for ((_, value) in tree)
+        for (value in tree)
             treeNode.add(value)
 
 
-        for (i in 1 until lenght) {
+        for (i in 1 until length) {
             if (treeNode[i] <= treeNode[i - 1])
                 return false
-
         }
+
         return true
     }
 
@@ -34,10 +33,12 @@ class BSTreeTest {
     fun createTree() {
         tree = BSTree()
     }
+
     @Test
     fun `the null tree must be null`() {
         assertNull(tree.root, "tree must be null")
     }
+
     @Test
     fun `all unique keys must be added in the appropriate order`() {
 
@@ -45,6 +46,7 @@ class BSTreeTest {
 
         assertTrue(checkInvariant(tree, keysCount))
     }
+
     @Test
     fun `delete key not contains in tree`() {
 
@@ -56,20 +58,15 @@ class BSTreeTest {
 
         var treeSize = 0
 
-        tree.forEach { (_, value) ->
-            if (value != null)
-            treeSize ++ }
-
-        var isContains = true
-        for ((_, v) in tree) {
-            if (v == randomDeleteKey)
-                isContains = false
-        }
+        tree.forEach { treeSize ++ }
 
         assertTrue(checkInvariant(tree, treeSize), "After deleting the key, the binary tree lost its properties")
-        assertTrue(isContains, "Tree contains deleted key")
+
+        assertTrue(!tree.contains(randomDeleteKey), "Tree contains deleted key")
+        
         assertTrue(treeSize == keysCount - 1, "The size of the tree with the deleted node should be 1 less than the original one")
     }
+
     @Test
     fun `the updated key must be updated`() {
 
@@ -77,6 +74,7 @@ class BSTreeTest {
 
         val randomUpdateKey =  keys.random()
         var randomValue : Int
+
         do {
             randomValue = Random.nextInt(1,10000001)
         } while (tree.search(randomUpdateKey) == randomValue)
@@ -86,9 +84,11 @@ class BSTreeTest {
         tree.update(randomUpdateKey, randomValue)
         
         var countUpdate = 0
+
         for (pair in tree.zip(keys.sorted())) {
-                countUpdate += if (pair.first.second != pair.second) 1 else 0
+                countUpdate += if (pair.first != pair.second) 1 else 0
         }
+
         assertEquals(countUpdate, 1, "Only one node in the tree should be changed")
 
 
@@ -96,6 +96,7 @@ class BSTreeTest {
     @Test
     fun `tree should not contain duplicate elements`() {
         keys.forEach { key -> tree.insert(key, key) }
+
         keys.forEach { key -> tree.insert(key, key) }
 
         var countBeforeDoubleInsert = 0
@@ -106,6 +107,7 @@ class BSTreeTest {
 
         assertEquals(countBeforeDoubleInsert, keysCount, "Tree must contain unique keys")
     }
+
     @Test
     fun `tree should be empty after deleting all the keys`() {
 
@@ -123,6 +125,7 @@ class BSTreeTest {
             assertEquals(it, tree.search(it), "The element was not found, although it exists in the tree")
         }
     }
+
     @Test
     fun `if the element is not found, then search should return null`() {
         var randomKey : Int
@@ -134,7 +137,4 @@ class BSTreeTest {
         assertNull(tree.search(randomKey), "The element is not contained in the tree")
 
     }
-
-
-
 }
