@@ -11,7 +11,7 @@ class AVLTreeTest {
     fun `test 1 insertion in empty tree`() {
         val tree = AVLTree<Int, String>()
         tree.insert(1, "A")
-        assertEquals(Pair(1, "A"), Pair(tree.root?.key, tree.root?.value))
+        assertEquals(Pair(1, "A"), Pair(tree.getRoot()?.key, tree.getRoot()?.value))
     }
 
     @Test
@@ -26,7 +26,7 @@ class AVLTreeTest {
         val tree = AVLTree<Int, String>()
         tree.insert(1, "A")
         tree.delete(1)
-        assertNull(tree.root)
+        assertNull(tree.getRoot())
     }
 
     @Test
@@ -35,7 +35,7 @@ class AVLTreeTest {
         tree.insert(1, "A") // root
         tree.insert(2, "B") // right child
         tree.delete(1)
-        assertEquals(Pair(2, "B"), Pair(tree.root?.key, tree.root?.value))
+        assertEquals(Pair(2, "B"), Pair(tree.getRoot()?.key, tree.getRoot()?.value))
     }
 
     @Test
@@ -44,7 +44,7 @@ class AVLTreeTest {
         tree.insert(1, "A")
         tree.insert(2, "B")
         tree.insert(3, "C")
-        assertEquals(2, tree.root?.height)
+        assertEquals(2, tree.getRoot()?.height)
     }
 
     @Test
@@ -58,13 +58,13 @@ class AVLTreeTest {
         tree.insert(5, "F")
         tree.insert(7, "G")
 
-        assertEquals(4, tree.root?.key)
-        assertEquals(2, tree.root?.left?.key)
-        assertEquals(1, tree.root?.left?.left?.key)
-        assertEquals(3, tree.root?.left?.right?.key)
-        assertEquals(6, tree.root?.right?.key)
-        assertEquals(7, tree.root?.right?.right?.key)
-        assertEquals(5, tree.root?.right?.left?.key)
+        assertEquals(4, tree.getRoot()?.key)
+        assertEquals(2, tree.getRoot()?.left?.key)
+        assertEquals(1, tree.getRoot()?.left?.left?.key)
+        assertEquals(3, tree.getRoot()?.left?.right?.key)
+        assertEquals(6, tree.getRoot()?.right?.key)
+        assertEquals(7, tree.getRoot()?.right?.right?.key)
+        assertEquals(5, tree.getRoot()?.right?.left?.key)
     }
 
     @Test

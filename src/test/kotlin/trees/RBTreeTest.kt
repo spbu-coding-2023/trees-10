@@ -16,7 +16,7 @@ class RBTreeTest {
     @Test
     fun `test insertion into void tree`() {
         t.insert(1, 0)
-        assertEquals(1, t.root?.key)
+        assertEquals(1, t.getRoot()?.key)
     }
 
     @Test
@@ -25,11 +25,11 @@ class RBTreeTest {
         t.insert(2, 0)
         t.insert(3, 0)
 
-        assertEquals(2, t.root?.key)
-        assertEquals(1, t.root?.left?.key)
-        assertEquals(3, t.root?.right?.key)
-        assertEquals(Colors.RED, t.root?.left?.color)
-        assertEquals(Colors.RED, t.root?.right?.color)
+        assertEquals(2, t.getRoot()?.key)
+        assertEquals(1, t.getRoot()?.left?.key)
+        assertEquals(3, t.getRoot()?.right?.key)
+        assertEquals(Colors.RED, t.getRoot()?.left?.color)
+        assertEquals(Colors.RED, t.getRoot()?.right?.color)
     }
 
     @Test
@@ -38,11 +38,11 @@ class RBTreeTest {
         t.insert(2, 0)
         t.insert(1, 0)
 
-        assertEquals(2, t.root?.key)
-        assertEquals(1, t.root?.left?.key)
-        assertEquals(3, t.root?.right?.key)
-        assertEquals(Colors.RED, t.root?.left?.color)
-        assertEquals(Colors.RED, t.root?.right?.color)
+        assertEquals(2, t.getRoot()?.key)
+        assertEquals(1, t.getRoot()?.left?.key)
+        assertEquals(3, t.getRoot()?.right?.key)
+        assertEquals(Colors.RED, t.getRoot()?.left?.color)
+        assertEquals(Colors.RED, t.getRoot()?.right?.color)
     }
 
     @Test
@@ -52,13 +52,13 @@ class RBTreeTest {
         t.insert(30, 0)
         t.insert(35, 0)
 
-        assertEquals(20, t.root?.key)
-        assertEquals(10, t.root?.left?.key)
-        assertEquals(30, t.root?.right?.key)
-        assertEquals(35, t.root?.right?.right?.key)
-        assertEquals(Colors.BLACK, t.root?.left?.color)
-        assertEquals(Colors.BLACK, t.root?.right?.color)
-        assertEquals(Colors.RED, t.root?.right?.right?.color)
+        assertEquals(20, t.getRoot()?.key)
+        assertEquals(10, t.getRoot()?.left?.key)
+        assertEquals(30, t.getRoot()?.right?.key)
+        assertEquals(35, t.getRoot()?.right?.right?.key)
+        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
+        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.right?.right?.color)
     }
 
     @Test
@@ -68,13 +68,13 @@ class RBTreeTest {
         t.insert(30, 0)
         t.insert(5, 0)
 
-        assertEquals(20, t.root?.key)
-        assertEquals(10, t.root?.left?.key)
-        assertEquals(30, t.root?.right?.key)
-        assertEquals(5, t.root?.left?.left?.key)
-        assertEquals(Colors.BLACK, t.root?.left?.color)
-        assertEquals(Colors.BLACK, t.root?.right?.color)
-        assertEquals(Colors.RED, t.root?.left?.left?.color)
+        assertEquals(20, t.getRoot()?.key)
+        assertEquals(10, t.getRoot()?.left?.key)
+        assertEquals(30, t.getRoot()?.right?.key)
+        assertEquals(5, t.getRoot()?.left?.left?.key)
+        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
+        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.left?.left?.color)
     }
 
     @Test
@@ -85,15 +85,15 @@ class RBTreeTest {
         t.insert(40, 0)
         t.insert(35, 0)
 
-        assertEquals(20, t.root?.key)
-        assertEquals(10, t.root?.left?.key)
-        assertEquals(35, t.root?.right?.key)
-        assertEquals(30, t.root?.right?.left?.key)
-        assertEquals(40, t.root?.right?.right?.key)
-        assertEquals(Colors.BLACK, t.root?.left?.color)
-        assertEquals(Colors.BLACK, t.root?.right?.color)
-        assertEquals(Colors.RED, t.root?.right?.right?.color)
-        assertEquals(Colors.RED, t.root?.right?.left?.color)
+        assertEquals(20, t.getRoot()?.key)
+        assertEquals(10, t.getRoot()?.left?.key)
+        assertEquals(35, t.getRoot()?.right?.key)
+        assertEquals(30, t.getRoot()?.right?.left?.key)
+        assertEquals(40, t.getRoot()?.right?.right?.key)
+        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
+        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.right?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.right?.left?.color)
     }
 
     @Test
@@ -104,15 +104,15 @@ class RBTreeTest {
         t.insert(5, 0)
         t.insert(7, 0)
 
-        assertEquals(20, t.root?.key)
-        assertEquals(7, t.root?.left?.key)
-        assertEquals(30, t.root?.right?.key)
-        assertEquals(10, t.root?.left?.right?.key)
-        assertEquals(5, t.root?.left?.left?.key)
-        assertEquals(Colors.BLACK, t.root?.left?.color)
-        assertEquals(Colors.BLACK, t.root?.right?.color)
-        assertEquals(Colors.RED, t.root?.left?.right?.color)
-        assertEquals(Colors.RED, t.root?.left?.left?.color)
+        assertEquals(20, t.getRoot()?.key)
+        assertEquals(7, t.getRoot()?.left?.key)
+        assertEquals(30, t.getRoot()?.right?.key)
+        assertEquals(10, t.getRoot()?.left?.right?.key)
+        assertEquals(5, t.getRoot()?.left?.left?.key)
+        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
+        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.left?.right?.color)
+        assertEquals(Colors.RED, t.getRoot()?.left?.left?.color)
     }
 
 
@@ -124,7 +124,7 @@ class RBTreeTest {
 
         t.delete(3)
 
-        assertEquals(null, t.root?.right)
+        assertEquals(null, t.getRoot()?.right)
     }
 
     @Test
@@ -136,7 +136,7 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(35, t.root?.right?.key)
+        assertEquals(35, t.getRoot()?.right?.key)
     }
 
     @Test
@@ -148,7 +148,7 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(25, t.root?.right?.key)
+        assertEquals(25, t.getRoot()?.right?.key)
     }
 
     @Test
@@ -161,8 +161,8 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(35, t.root?.right?.key)
-        assertEquals(25, t.root?.right?.left?.key)
-        assertEquals(null, t.root?.right?.right?.key)
+        assertEquals(35, t.getRoot()?.right?.key)
+        assertEquals(25, t.getRoot()?.right?.left?.key)
+        assertEquals(null, t.getRoot()?.right?.right?.key)
     }
 }

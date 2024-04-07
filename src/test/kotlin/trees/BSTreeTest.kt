@@ -35,7 +35,7 @@ class BSTreeTest {
 
     @Test
     fun `the null tree must be null`() {
-        assertNull(tree.root, "tree must be null")
+        assertNull(tree.getRoot(), "tree must be null")
     }
 
     @Test
@@ -83,7 +83,7 @@ class BSTreeTest {
         var countUpdate = 0
 
         for (pair in tree.zip(keys.sorted())) {
-                countUpdate += if (pair.first.second != pair.second) 1 else 0
+            countUpdate += if (pair.first.second != pair.second) 1 else 0
         }
 
         assertEquals(countUpdate, 1, "Only one node in the tree should be changed")
@@ -110,7 +110,7 @@ class BSTreeTest {
 
         keys.forEach {tree.delete(it) }
 
-        assertNull(tree.root, "Tree was be null")
+        assertNull(tree.getRoot(), "Tree was be null")
     }
     @Test
     fun `search must return value`() {
