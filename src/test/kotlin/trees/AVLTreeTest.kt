@@ -74,4 +74,69 @@ class AVLTreeTest {
         tree.insert(1, "B")
         assertEquals("B", tree.search(1))
     }
+
+    @Test
+    fun `test 8 left rotation`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(3, "A")
+        tree.insert(1, "B")
+        tree.insert(4, "C")
+        tree.insert(5, "D")
+        tree.insert(6, "E")
+
+        assertEquals(5, tree.getRoot()?.right?.key)
+        assertEquals(4, tree.getRoot()?.right?.left?.key)
+        assertEquals(6, tree.getRoot()?.right?.right?.key)
+    }
+
+    @Test
+    fun `test 9 right rotation`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(3, "A")
+        tree.insert(1, "B")
+        tree.insert(7, "C")
+        tree.insert(5, "D")
+        tree.insert(6, "E")
+
+        assertEquals(6, tree.getRoot()?.right?.key)
+        assertEquals(5, tree.getRoot()?.right?.left?.key)
+        assertEquals(7, tree.getRoot()?.right?.right?.key)
+    }
+
+    @Test
+    fun `test 10 delete node with 2 children`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(3, "A")
+        tree.insert(1, "B")
+        tree.insert(7, "C")
+        tree.insert(5, "D")
+        tree.insert(6, "E")
+
+        tree.delete(6)
+
+        assertEquals(7, tree.getRoot()?.right?.key)
+        assertEquals(5, tree.getRoot()?.right?.left?.key)
+    }
+
+    @Test
+    fun `test 11 balancing after deletion`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(15, "A")
+        tree.insert(10, "B")
+        tree.insert(20, "C")
+        tree.insert(1, "D")
+        tree.insert(14, "E")
+        tree.insert(30, "F")
+        tree.insert(2, "G")
+
+        tree.delete(30)
+
+        assertEquals(10, tree.getRoot()?.key)
+        assertEquals(15, tree.getRoot()?.right?.key)
+        assertEquals(1, tree.getRoot()?.left?.key)
+    }
 }
