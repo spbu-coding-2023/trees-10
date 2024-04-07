@@ -139,4 +139,44 @@ class AVLTreeTest {
         assertEquals(15, tree.getRoot()?.right?.key)
         assertEquals(1, tree.getRoot()?.left?.key)
     }
+
+    @Test
+    fun `test 12 right and left rotation (big left rotation)`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(20, "A")
+        tree.insert(10, "B")
+        tree.insert(40, "C")
+        tree.insert(30, "D")
+        tree.insert(2, "E")
+        tree.insert(50, "F")
+        tree.insert(25, "G")
+
+        tree.delete(2)
+
+        assertEquals(30, tree.getRoot()?.key)
+        assertEquals(40, tree.getRoot()?.right?.key)
+        assertEquals(20, tree.getRoot()?.left?.key)
+    }
+
+    @Test
+    fun `test 13 left and right rotation (big right rotation)`() {
+        val tree = AVLTree<Int, String>()
+
+        tree.insert(20, "A")
+        tree.insert(10, "B")
+        tree.insert(30, "C")
+        tree.insert(30, "D")
+        tree.insert(40, "E")
+        tree.insert(7, "F")
+        tree.insert(14, "G")
+        tree.insert(15, "H")
+        tree.insert(12, "L")
+
+        tree.delete(40)
+
+        assertEquals(14, tree.getRoot()?.key)
+        assertEquals(20, tree.getRoot()?.right?.key)
+        assertEquals(10, tree.getRoot()?.left?.key)
+    }
 }
