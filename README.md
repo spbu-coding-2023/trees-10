@@ -24,6 +24,7 @@ All types of trees support all CRUD operations:
     tree.update("kotlin <3", 666)
     tree.delete("kotlin <3")
     tree.search("Windows > Linux")
+    tree.getRoot()
 ```
 
 You can iterate over a tree:
