@@ -1,22 +1,29 @@
 package trees
 
+import nodes.RBNode
 import nodes.RBNode.Colors
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.lang.reflect.Field
 import kotlin.test.assertEquals
 
 class RBTreeTest {
     private lateinit var t: RBTree<Int, Int>
+    private var root: RBNode<*, *>? = null
+    private lateinit var f: Field
 
     @BeforeEach
     fun setup() {
         t = RBTree()
+        f = RBTree::class.java.superclass.getDeclaredField("root")
+        f.trySetAccessible()
     }
 
     @Test
     fun `test insertion into void tree`() {
         t.insert(1, 0)
-        assertEquals(1, t.getRoot()?.key)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(1, root?.key)
     }
 
     @Test
@@ -25,11 +32,12 @@ class RBTreeTest {
         t.insert(2, 0)
         t.insert(3, 0)
 
-        assertEquals(2, t.getRoot()?.key)
-        assertEquals(1, t.getRoot()?.left?.key)
-        assertEquals(3, t.getRoot()?.right?.key)
-        assertEquals(Colors.RED, t.getRoot()?.left?.color)
-        assertEquals(Colors.RED, t.getRoot()?.right?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(2, root?.key)
+        assertEquals(1, root?.left?.key)
+        assertEquals(3, root?.right?.key)
+        assertEquals(Colors.RED, root?.left?.color)
+        assertEquals(Colors.RED, root?.right?.color)
     }
 
     @Test
@@ -38,11 +46,12 @@ class RBTreeTest {
         t.insert(2, 0)
         t.insert(1, 0)
 
-        assertEquals(2, t.getRoot()?.key)
-        assertEquals(1, t.getRoot()?.left?.key)
-        assertEquals(3, t.getRoot()?.right?.key)
-        assertEquals(Colors.RED, t.getRoot()?.left?.color)
-        assertEquals(Colors.RED, t.getRoot()?.right?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(2, root?.key)
+        assertEquals(1, root?.left?.key)
+        assertEquals(3, root?.right?.key)
+        assertEquals(Colors.RED, root?.left?.color)
+        assertEquals(Colors.RED, root?.right?.color)
     }
 
     @Test
@@ -52,13 +61,14 @@ class RBTreeTest {
         t.insert(30, 0)
         t.insert(35, 0)
 
-        assertEquals(20, t.getRoot()?.key)
-        assertEquals(10, t.getRoot()?.left?.key)
-        assertEquals(30, t.getRoot()?.right?.key)
-        assertEquals(35, t.getRoot()?.right?.right?.key)
-        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
-        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.right?.right?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(20, root?.key)
+        assertEquals(10, root?.left?.key)
+        assertEquals(30, root?.right?.key)
+        assertEquals(35, root?.right?.right?.key)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.RED, root?.right?.right?.color)
     }
 
     @Test
@@ -68,13 +78,14 @@ class RBTreeTest {
         t.insert(30, 0)
         t.insert(5, 0)
 
-        assertEquals(20, t.getRoot()?.key)
-        assertEquals(10, t.getRoot()?.left?.key)
-        assertEquals(30, t.getRoot()?.right?.key)
-        assertEquals(5, t.getRoot()?.left?.left?.key)
-        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
-        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.left?.left?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(20, root?.key)
+        assertEquals(10, root?.left?.key)
+        assertEquals(30, root?.right?.key)
+        assertEquals(5, root?.left?.left?.key)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.RED, root?.left?.left?.color)
     }
 
     @Test
@@ -85,15 +96,16 @@ class RBTreeTest {
         t.insert(40, 0)
         t.insert(35, 0)
 
-        assertEquals(20, t.getRoot()?.key)
-        assertEquals(10, t.getRoot()?.left?.key)
-        assertEquals(35, t.getRoot()?.right?.key)
-        assertEquals(30, t.getRoot()?.right?.left?.key)
-        assertEquals(40, t.getRoot()?.right?.right?.key)
-        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
-        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.right?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.right?.left?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(20, root?.key)
+        assertEquals(10, root?.left?.key)
+        assertEquals(35, root?.right?.key)
+        assertEquals(30, root?.right?.left?.key)
+        assertEquals(40, root?.right?.right?.key)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.RED, root?.right?.right?.color)
+        assertEquals(Colors.RED, root?.right?.left?.color)
     }
 
     @Test
@@ -104,15 +116,16 @@ class RBTreeTest {
         t.insert(5, 0)
         t.insert(7, 0)
 
-        assertEquals(20, t.getRoot()?.key)
-        assertEquals(7, t.getRoot()?.left?.key)
-        assertEquals(30, t.getRoot()?.right?.key)
-        assertEquals(10, t.getRoot()?.left?.right?.key)
-        assertEquals(5, t.getRoot()?.left?.left?.key)
-        assertEquals(Colors.BLACK, t.getRoot()?.left?.color)
-        assertEquals(Colors.BLACK, t.getRoot()?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.left?.right?.color)
-        assertEquals(Colors.RED, t.getRoot()?.left?.left?.color)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(20, root?.key)
+        assertEquals(7, root?.left?.key)
+        assertEquals(30, root?.right?.key)
+        assertEquals(10, root?.left?.right?.key)
+        assertEquals(5, root?.left?.left?.key)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.RED, root?.left?.right?.color)
+        assertEquals(Colors.RED, root?.left?.left?.color)
     }
 
 
@@ -124,7 +137,8 @@ class RBTreeTest {
 
         t.delete(3)
 
-        assertEquals(null, t.getRoot()?.right)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(null, root?.right)
     }
 
     @Test
@@ -136,7 +150,8 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(35, t.getRoot()?.right?.key)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(35, root?.right?.key)
     }
 
     @Test
@@ -148,7 +163,8 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(25, t.getRoot()?.right?.key)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(25, root?.right?.key)
     }
 
     @Test
@@ -161,8 +177,9 @@ class RBTreeTest {
 
         t.delete(30)
 
-        assertEquals(35, t.getRoot()?.right?.key)
-        assertEquals(25, t.getRoot()?.right?.left?.key)
-        assertEquals(null, t.getRoot()?.right?.right?.key)
+        root = f.get(t) as RBNode<*, *>?
+        assertEquals(35, root?.right?.key)
+        assertEquals(25, root?.right?.left?.key)
+        assertEquals(null, root?.right?.right?.key)
     }
 }

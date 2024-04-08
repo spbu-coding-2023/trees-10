@@ -1,5 +1,6 @@
 package trees
 
+import nodes.BSNode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
@@ -9,6 +10,8 @@ import kotlin.test.assertTrue
 
 class BSTreeTest {
     private lateinit var tree: BSTree<Int,Int>
+    private var root: BSNode<*, *>? = null
+
 
     private var randomizer = Random(24)
     private val keys = Array(100000) { randomizer.nextInt() }.distinct()
@@ -31,11 +34,14 @@ class BSTreeTest {
     @BeforeEach
     fun createTree() {
         tree = BSTree()
+        val f = BSTree::class.java.superclass.getDeclaredField("root")
+        f.trySetAccessible()
+        root = f.get(tree) as BSNode<*, *>?
     }
 
     @Test
     fun `the null tree must be null`() {
-        assertNull(tree.getRoot(), "tree must be null")
+        assertNull(root, "tree must be null")
     }
 
     @Test
@@ -110,7 +116,7 @@ class BSTreeTest {
 
         keys.forEach {tree.delete(it) }
 
-        assertNull(tree.getRoot(), "Tree was be null")
+        assertNull(root, "Tree was be null")
     }
     @Test
     fun `search must return value`() {

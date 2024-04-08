@@ -8,10 +8,6 @@ abstract class Tree<K : Comparable<K>, V, N : Node<K, V, N>> : Iterable<Pair<K, 
     abstract fun insert(key: K, value: V)
     abstract fun delete(key: K)
 
-    @JvmName("getSpecialRoot")
-    fun getRoot(): N? {
-        return root
-    }
     fun update(key: K, value: V) {
         val node = searchRec(root, key)
         if (node == null)
