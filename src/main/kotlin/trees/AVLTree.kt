@@ -68,7 +68,6 @@ class AVLTree<K : Comparable<K>, V>: Tree<K, V, AVLNode<K, V>>() {
     }
 
     private fun balance(node: AVLNode<K, V>?): AVLNode<K, V>? {
-        updateNodeHeight(node)
         val t = balanceFactor(node)
 
         if (t > 1) {
@@ -83,6 +82,7 @@ class AVLTree<K : Comparable<K>, V>: Tree<K, V, AVLNode<K, V>>() {
             }
             return rotateLeft(node)
         }
+        updateNodeHeight(node)
         return node
     }
 
