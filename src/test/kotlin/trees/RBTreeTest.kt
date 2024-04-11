@@ -182,4 +182,57 @@ class RBTreeTest {
         assertEquals(25, root?.right?.left?.key)
         assertEquals(null, root?.right?.right?.key)
     }
+
+    @Test
+    fun `delete left black node with (red brother with black children)`() {
+        val array = arrayOf(
+            10, 20, 30, 25, 24, 26
+        )
+
+        array.forEach {
+            t.insert(it, 0)
+        }
+
+        t.delete(10)
+
+        root = f.get(t) as RBNode<*, *>?
+
+        assertEquals(25, root?.key)
+        assertEquals(30, root?.right?.key)
+        assertEquals(20, root?.left?.key)
+        assertEquals(26, root?.right?.left?.key)
+        assertEquals(24, root?.left?.right?.key)
+        assertEquals(Colors.BLACK, root?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.RED, root?.right?.left?.color)
+        assertEquals(Colors.RED, root?.left?.right?.color)
+    }
+
+    @Test
+    fun `delete right black node with (red brother with black children)`() {
+        val array = arrayOf(
+            -10, -20, -30, -25, -24, -26
+        )
+
+        array.forEach {
+            t.insert(it, 0)
+        }
+
+        t.delete(-10)
+
+        root = f.get(t) as RBNode<*, *>?
+
+        assertEquals(-25, root?.key)
+        assertEquals(-20, root?.right?.key)
+        assertEquals(-30, root?.left?.key)
+        assertEquals(-26, root?.left?.right?.key)
+        assertEquals(-24, root?.right?.left?.key)
+        assertEquals(Colors.BLACK, root?.color)
+        assertEquals(Colors.BLACK, root?.right?.color)
+        assertEquals(Colors.BLACK, root?.left?.color)
+        assertEquals(Colors.RED, root?.left?.right?.color)
+        assertEquals(Colors.RED, root?.right?.left?.color)
+
+    }
 }
